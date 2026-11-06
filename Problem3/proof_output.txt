@@ -1,0 +1,110 @@
+
+-----------------------------------------------------------
+Step 1 + 2: FOL knowledge base with the negated goal (9)
+-----------------------------------------------------------
+  1. forall x ((archivist(x) & exists r verifies(x,r)) -> trusted(x))
+  2. forall x forall r ((trusted(x) & (has_access(x,r) & sealed(r))) -> permitted(x,r))
+  3. forall x forall r ((inspects(x,r) & finds_mark(x,r)) -> verifies(x,r))
+  4. forall r (stored(r) -> sealed(r))
+  5. stored(scroll_7)
+  6. has_access(mira,scroll_7)
+  7. (inspects(mira,scroll_7) & finds_mark(mira,scroll_7))
+  8. archivist(mira)
+  9. ~trusted(mira)
+
+-----------------------------------------------------------
+Step 3: Implication removal
+-----------------------------------------------------------
+  1. forall x (~(archivist(x) & exists r verifies(x,r)) v trusted(x))
+  2. forall x forall r (~(trusted(x) & (has_access(x,r) & sealed(r))) v permitted(x,r))
+  3. forall x forall r (~(inspects(x,r) & finds_mark(x,r)) v verifies(x,r))
+  4. forall r (~stored(r) v sealed(r))
+  5. stored(scroll_7)
+  6. has_access(mira,scroll_7)
+  7. (inspects(mira,scroll_7) & finds_mark(mira,scroll_7))
+  8. archivist(mira)
+  9. ~trusted(mira)
+
+-----------------------------------------------------------
+Step 4: Negation moved inward
+-----------------------------------------------------------
+  1. forall x ((~archivist(x) v forall r ~verifies(x,r)) v trusted(x))
+  2. forall x forall r ((~trusted(x) v (~has_access(x,r) v ~sealed(r))) v permitted(x,r))
+  3. forall x forall r ((~inspects(x,r) v ~finds_mark(x,r)) v verifies(x,r))
+  4. forall r (~stored(r) v sealed(r))
+  5. stored(scroll_7)
+  6. has_access(mira,scroll_7)
+  7. (inspects(mira,scroll_7) & finds_mark(mira,scroll_7))
+  8. archivist(mira)
+  9. ~trusted(mira)
+
+-----------------------------------------------------------
+Step 5: Standardized variables
+-----------------------------------------------------------
+  1. forall x1 ((~archivist(x1) v forall r1 ~verifies(x1,r1)) v trusted(x1))
+  2. forall x2 forall r2 ((~trusted(x2) v (~has_access(x2,r2) v ~sealed(r2))) v permitted(x2,r2))
+  3. forall x3 forall r3 ((~inspects(x3,r3) v ~finds_mark(x3,r3)) v verifies(x3,r3))
+  4. forall r4 (~stored(r4) v sealed(r4))
+  5. stored(scroll_7)
+  6. has_access(mira,scroll_7)
+  7. (inspects(mira,scroll_7) & finds_mark(mira,scroll_7))
+  8. archivist(mira)
+  9. ~trusted(mira)
+
+-----------------------------------------------------------
+Step 6: Skolemization
+-----------------------------------------------------------
+  No existential quantifier is left after Step 4 (the "exists r" in rule 1
+  became "forall r" when the negation moved in), so no Skolem functions are
+  needed. Universal quantifiers are simply dropped:
+  1. ((~archivist(x1) v ~verifies(x1,r1)) v trusted(x1))
+  2. ((~trusted(x2) v (~has_access(x2,r2) v ~sealed(r2))) v permitted(x2,r2))
+  3. ((~inspects(x3,r3) v ~finds_mark(x3,r3)) v verifies(x3,r3))
+  4. (~stored(r4) v sealed(r4))
+  5. stored(scroll_7)
+  6. has_access(mira,scroll_7)
+  7. (inspects(mira,scroll_7) & finds_mark(mira,scroll_7))
+  8. archivist(mira)
+  9. ~trusted(mira)
+
+-----------------------------------------------------------
+Step 7: CNF clauses
+-----------------------------------------------------------
+  C1: ~archivist(X1) v ~verifies(X1,R1) v trusted(X1)
+  C2: ~trusted(X2) v ~has_access(X2,R2) v ~sealed(R2) v permitted(X2,R2)
+  C3: ~inspects(X3,R3) v ~finds_mark(X3,R3) v verifies(X3,R3)
+  C4: ~stored(R4) v sealed(R4)
+  C5: stored(scroll_7)
+  C6: has_access(mira,scroll_7)
+  C7a: inspects(mira,scroll_7)
+  C7b: finds_mark(mira,scroll_7)
+  C8: archivist(mira)
+  C9: ~trusted(mira)
+
+-----------------------------------------------------------
+Step 8: Resolution refutation
+-----------------------------------------------------------
+  Linear input resolution: each step resolves the latest resolvent (D1, D2, ...)
+  with one input clause. Input clauses are renamed apart on every use.
+  Start from the negated goal  C9: ~trusted(mira)
+
+  D1 = resolve(C9, C1)   mgu = {X1/mira}
+       ~archivist(mira) v ~verifies(mira,R1)
+
+  D2 = resolve(D1, C3)   mgu = {R3/R1, X3/mira}
+       ~archivist(mira) v ~inspects(mira,R3) v ~finds_mark(mira,R3)
+
+  D3 = resolve(D2, C7a)   mgu = {R3/scroll_7}
+       ~archivist(mira) v ~finds_mark(mira,scroll_7)
+
+  D4 = resolve(D3, C7b)   mgu = {}
+       ~archivist(mira)
+
+  D5 = resolve(D4, C8)   mgu = {}
+       []   <-- empty clause
+
+  Empty clause derived, so KB + ~trusted(mira) is unsatisfiable.
+  Therefore trusted(mira) follows from the facts and rules.  Q.E.D.
+
+  Clauses used: C9 (negated goal), [1,3,7a,7b,8]
+  Rules 2 and 4 and facts 5 and 6 (access, sealed, permitted) were not needed.

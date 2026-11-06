@@ -40,8 +40,8 @@ def show(prefix):
 
 print("\nFinal state (relevant facts):")
 print("  rover   :", show("(rover-at"))
-print("  rocks   :", show("(rock-at"))
-print("  bays    :", show("(bay-empty") + show("(in-bay"))
+print("  rocks   :", show("(rock-at-area"))
+print("  bays    :", show("(storage-empty") + show("(storage-filled"))
 print("  drill   :", show("(has-drill") + show("(drill-at"))
 
 missing_goals = task.goals - state

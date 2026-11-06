@@ -35,7 +35,7 @@ step 33: (deposit curiosity base rock5 bay1)
 Final state (relevant facts):
   rover   : ['(rover-at-area curiosity base)']
   rocks   : ['(rock-at-area rock1 base)', '(rock-at-area rock2 base)', '(rock-at-area rock3 base)', '(rock-at-area rock4 base)', '(rock-at-area rock5 base)']
-  bays    : []
+  bays    : ['(storage-empty curiosity bay1)', '(storage-empty curiosity bay2)']
   drill   : ['(has-drill curiosity drill1)']
 
 Plan executable: True
