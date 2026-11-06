@@ -1,0 +1,42 @@
+step  1: (move curiosity base sitea)
+step  2: (collect-soft curiosity sitea rock1 bay1)
+step  3: (move curiosity sitea base)
+step  4: (deposit curiosity base rock1 bay1)
+step  5: (move curiosity base siteb)
+step  6: (collect-soft curiosity siteb rock2 bay2)
+step  7: (move curiosity siteb sited)
+step  8: (move curiosity sited sitee)
+step  9: (pick-drill curiosity sitee drill1)
+step 10: (move curiosity sitee sitec)
+step 11: (collect-hard curiosity sitec rock3 bay1 drill1)
+step 12: (move curiosity sitec sited)
+step 13: (move curiosity sited siteb)
+step 14: (move curiosity siteb base)
+step 15: (deposit curiosity base rock3 bay1)
+step 16: (move curiosity base sitea)
+step 17: (move curiosity sitea sitec)
+step 18: (move curiosity sitec sited)
+step 19: (collect-soft curiosity sited rock4 bay1)
+step 20: (move curiosity sited siteb)
+step 21: (move curiosity siteb base)
+step 22: (deposit curiosity base rock2 bay2)
+step 23: (deposit curiosity base rock4 bay1)
+step 24: (move curiosity base sitea)
+step 25: (move curiosity sitea sitec)
+step 26: (move curiosity sitec sitee)
+step 27: (move curiosity sitee sitef)
+step 28: (collect-hard curiosity sitef rock5 bay1 drill1)
+step 29: (move curiosity sitef sitee)
+step 30: (move curiosity sitee sitec)
+step 31: (move curiosity sitec sitea)
+step 32: (move curiosity sitea base)
+step 33: (deposit curiosity base rock5 bay1)
+
+Final state (relevant facts):
+  rover   : ['(rover-at-area curiosity base)']
+  rocks   : ['(rock-at-area rock1 base)', '(rock-at-area rock2 base)', '(rock-at-area rock3 base)', '(rock-at-area rock4 base)', '(rock-at-area rock5 base)']
+  bays    : []
+  drill   : ['(has-drill curiosity drill1)']
+
+Plan executable: True
+Goal satisfied : True
